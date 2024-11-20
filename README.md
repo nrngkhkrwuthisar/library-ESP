@@ -1,45 +1,50 @@
-# MenuManager Library for Arduino (with I2C LCD)
+# MenuManager Library for Arduino (พร้อมจอ LCD แบบ I2C)
 
-This library allows you to easily manage menus on an I2C LCD display using simple button input for navigation and selection. It is designed to work specifically with the `LiquidCrystal_I2C` library for I2C-controlled LCDs.
-
----
-
-## Features
-
-- Supports navigation through a list of menus.
-- Simple and intuitive API for adding menus.
-- Works with I2C LCD displays (16x2, 20x4, etc.).
-- Button-controlled menu navigation and selection.
-- Customizable menu items and navigation controls.
+ไลบรารีนี้ช่วยให้คุณสามารถจัดการเมนูบนจอ LCD แบบ I2C ได้อย่างง่ายดาย โดยใช้ปุ่มควบคุมสำหรับการนำทางและการเลือก ออกแบบมาให้ใช้งานร่วมกับไลบรารี `LiquidCrystal_I2C` สำหรับจอ LCD ที่ควบคุมผ่าน I2C โดยเฉพาะ
 
 ---
 
-## Installation  ทดสอบ
+## คุณสมบัติ
 
-1. **Install `LiquidCrystal_I2C` Library**:
-   - Go to **Sketch** → **Include Library** → **Manage Libraries**.
-   - Search for `LiquidCrystal_I2C` and install it.
-
-2. **Copy `MenuManager` Library to Arduino Libraries Folder**:
-   - Download the `MenuManager.h` and `MenuManager.cpp` files.
-   - Place them in the `libraries` folder of your Arduino IDE.
+- รองรับการนำทางผ่านรายการเมนู
+- API ที่เข้าใจง่ายสำหรับการเพิ่มเมนู
+- ใช้งานกับจอ LCD แบบ I2C ได้ (เช่น 16x2, 20x4)
+- ใช้ปุ่มควบคุมสำหรับการนำทางและการเลือกเมนู
+- สามารถปรับแต่งรายการเมนูและการควบคุมได้
 
 ---
 
-## How It Works
+## การติดตั้ง  
 
-The `MenuManager` library is used to create and display menus on an I2C LCD. You can easily add new menus, navigate through them using buttons, and select them to display a confirmation message. The following functions are provided:
+### 1. ติดตั้งไลบรารี `LiquidCrystal_I2C`
+1. ไปที่เมนู **Sketch** → **Include Library** → **Manage Libraries**
+2. ค้นหา `LiquidCrystal_I2C` และติดตั้ง
 
-- `add(String menuName)`: Add a new menu item.
-- `displayMenu()`: Display the current menu on the LCD.
-- `handleInput(int btnNext, int btnSelect)`: Handle button presses for navigation and selection.
-- `getSelectedMenu()`: Get the name of the currently selected menu.
+### 2. เพิ่มไลบรารี `MenuManager` ลงใน Arduino
+1. ดาวน์โหลดไฟล์ `MenuManager.h` และ `MenuManager.cpp`
+2. วางไฟล์ในโฟลเดอร์ `libraries` ของ Arduino IDE
 
 ---
 
-## Example Code
+## การทำงานของไลบรารี
 
-Here is an example of how to use the `MenuManager` library to create a simple menu system with a 16x2 I2C LCD:
+ไลบรารี `MenuManager` ใช้สำหรับสร้างและแสดงผลเมนูบนจอ LCD แบบ I2C คุณสามารถเพิ่มเมนูใหม่ นำทางผ่านเมนูด้วยปุ่ม และเลือกเพื่อแสดงข้อความยืนยันได้  
+
+### ฟังก์ชันหลัก:
+- `add(String menuName)`  
+  เพิ่มรายการเมนูใหม่
+- `displayMenu()`  
+  แสดงผลเมนูปัจจุบันบนจอ LCD
+- `handleInput(int btnNext, int btnSelect)`  
+  จัดการการกดปุ่มสำหรับนำทางและการเลือก
+- `getSelectedMenu()`  
+  รับชื่อของเมนูที่ถูกเลือก
+
+---
+
+## ตัวอย่างการใช้งาน
+
+ตัวอย่างนี้แสดงวิธีการใช้งานไลบรารี `MenuManager` เพื่อสร้างระบบเมนูบนจอ LCD แบบ I2C ขนาด 16x2:
 
 ```cpp
 #include <Arduino.h>
@@ -47,43 +52,43 @@ Here is an example of how to use the `MenuManager` library to create a simple me
 #include <LiquidCrystal_I2C.h>
 #include "MenuManager.h"
 
-// Initialize LCD with I2C address (0x27) and size 16x2
+// เริ่มต้นจอ LCD ด้วยที่อยู่ I2C (0x27) และขนาด 16x2
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-// Create MenuManager object
+// สร้างออบเจ็กต์ MenuManager
 MenuManager menu(&lcd);
 
-// Define button pins
-#define BTN_NEXT 7    // Button to navigate to the next menu
-#define BTN_SELECT 8  // Button to select a menu
+// กำหนดพินของปุ่ม
+#define BTN_NEXT 7    // ปุ่มสำหรับเปลี่ยนไปเมนูถัดไป
+#define BTN_SELECT 8  // ปุ่มสำหรับเลือกเมนู
 
 void setup() {
-    // Initialize LCD
+    // เริ่มต้นจอ LCD
     lcd.begin();
     lcd.backlight();
 
-    // Set button pins as INPUT_PULLUP
+    // ตั้งค่าพินของปุ่มเป็น INPUT_PULLUP
     pinMode(BTN_NEXT, INPUT_PULLUP);
     pinMode(BTN_SELECT, INPUT_PULLUP);
 
-    // Add menu items
-    menu.add("Menu 1: Option A");
-    menu.add("Menu 2: Option B");
-    menu.add("Menu 3: Option C");
-    menu.add("Menu 4: Option D");
-    menu.add("Menu 5: Option E");
+    // เพิ่มรายการเมนู
+    menu.add("เมนู 1: ตัวเลือก A");
+    menu.add("เมนู 2: ตัวเลือก B");
+    menu.add("เมนู 3: ตัวเลือก C");
+    menu.add("เมนู 4: ตัวเลือก D");
+    menu.add("เมนู 5: ตัวเลือก E");
 
-    // Display the first menu
+    // แสดงเมนูแรก
     menu.displayMenu();
 }
 
 void loop() {
-    // Handle button input for menu navigation and selection
+    // จัดการการกดปุ่มสำหรับการนำทางและการเลือกเมนู
     menu.handleInput(BTN_NEXT, BTN_SELECT);
 
-    // Optionally: Get the selected menu and print it to Serial Monitor
+    // ตัวเลือกเสริม: รับเมนูที่ถูกเลือกและแสดงผลบน Serial Monitor
     if (digitalRead(BTN_SELECT) == LOW) {
         String selectedMenu = menu.getSelectedMenu();
-        Serial.println("You selected: " + selectedMenu);
+        Serial.println("คุณเลือก: " + selectedMenu);
     }
 }
