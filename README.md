@@ -14,7 +14,7 @@ This library allows you to easily manage menus on an I2C LCD display using simpl
 
 ---
 
-## Installation
+## Installation  ทดสอบ
 
 1. **Install `LiquidCrystal_I2C` Library**:
    - Go to **Sketch** → **Include Library** → **Manage Libraries**.
